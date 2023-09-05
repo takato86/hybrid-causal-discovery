@@ -160,9 +160,9 @@ class ScoreMatCompute(object):
             print(self.scoreNodes)
 
         if base_model == 'lgbm':
-            from lgbm_cvmodel import ModelWrapper
+            from hcm.lgbm_cvmodel import ModelWrapper
         elif base_model == 'gam':
-            from gam_cvmodel import ModelWrapper
+            from hcm.gam_cvmodel import ModelWrapper
         else:
             raise NotImplementedError(
                 f"currently we only support 'lgbm' and 'gam'.")

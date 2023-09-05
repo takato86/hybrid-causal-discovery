@@ -25,31 +25,37 @@ def skeleton(indepTest, labels, m_max, alpha=0.05, priorAdj=None, **kwargs):
         done = True
         G1 = G.copy()
 
-        ind = [(i, j)
-               for i in range(len(G))
-               for j in range(len(G[i]))
-               if G[i][j] == True
-               ]
+        ind = [
+            (i, j)
+            for i in range(len(G))
+            for j in range(len(G[i]))
+            if G[i][j]
+        ]
     
         with logging_redirect_tqdm():
             for x, y in tqdm(ind):
-                if priorAdj is not None:
-                    if priorAdj[x,y]==1 or priorAdj[y,x]==1:
-                        continue
+                if priorAdj is not None and (priorAdj[x,y]==1 or priorAdj[y,x]==1):
+                    continue
 
-                if G[y][x] == True:
-                    nbrs = [i for i in range(len(G1)) if G1[x][i] == True and i != y]
-                    if len(nbrs) >= ord:
-                        if len(nbrs) > ord:
-                            done = False
+                if not G[y][x]:
+                    continue
 
-                        for nbrs_S in set(itertools.combinations(nbrs, ord)):
-                            n_edgetests[ord1] = n_edgetests[ord1] + 1
-                            pval = indepTest.fit(x, y, list(nbrs_S), **kwargs)
-                            if pval >= alpha:
-                                G[x][y] = G[y][x] = False
-                                sepset[x][y] = set(nbrs_S)
-                                break
+                nbrs = [i for i in range(len(G1)) if G1[x][i] and i != y]
+
+                if len(nbrs) >= ord:
+
+                    if len(nbrs) > ord:
+                        done = False
+
+                    for nbrs_S in set(itertools.combinations(nbrs, ord)):
+                        n_edgetests[ord1] = n_edgetests[ord1] + 1
+                        pval = indepTest.fit(x, y, list(nbrs_S), **kwargs)
+
+                        if pval >= alpha:
+                            G[x][y] = G[y][x] = False
+                            sepset[x][y] = set(nbrs_S)
+                            break
+    
         ord += 1
 
     return {'sk': np.array(G),'sepset': sepset,}
