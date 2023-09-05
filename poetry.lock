@@ -585,6 +585,21 @@ files = [
 traitlets = "*"
 
 [[package]]
+name = "momentchi2"
+version = "0.1.8"
+description = "A collection of methods for computing the cdf of a weighted sum of chi-squared random variables."
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "momentchi2-0.1.8-py3-none-any.whl", hash = "sha256:39523a545882c5eaee205496a007954f4db4dedb4e5009206c92c0a865ad3c4d"},
+    {file = "momentchi2-0.1.8.tar.gz", hash = "sha256:95d4becfd181d447c0281292c5827d74a09b04c38bd312da48a8a08932e8de1f"},
+]
+
+[package.dependencies]
+numpy = ">=1"
+scipy = ">=1"
+
+[[package]]
 name = "nest-asyncio"
 version = "1.5.7"
 description = "Patch asyncio to allow nested event loops"
@@ -1517,4 +1532,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "3.9.17"
-content-hash = "e0541f9259400462965b1284c877176c27bd3d57f82a72bdacb3f9f9cab34489"
+content-hash = "036de40d2706cb75440d6821ffde3b3c6e39f291c0072341dfb1e1b03f0c25e6"

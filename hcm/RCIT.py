@@ -4,10 +4,11 @@ import random
 from hcm.utils import normalize
 from scipy.spatial.distance import pdist
 from scipy.linalg import cholesky, solve_triangular
-from rpy2.robjects.numpy2ri import numpy2rpy
+# from rpy2.robjects.numpy2ri import numpy2rpy
 
-import rpy2.robjects.packages as rpackages
-momentchi2 = rpackages.importr('momentchi2')
+# import rpy2.robjects.packages as rpackages
+# momentchi2 = rpackages.importr('momentchi2')
+import momentchi2
 
 
 def rff_mixed(x, num_f=10):
@@ -74,9 +75,11 @@ def RIT_core(four_x, four_y, r, num_f):
     eig_d = eig_d.real
 
     try:
-        p = 1- momentchi2.lpb4(numpy2rpy(eig_d), Sta.item())[0]
+        # p = 1- momentchi2.lpb4(numpy2rpy(eig_d), Sta.item())[0]
+        p = 1 - momentchi2.lpb4(eig_d, np.array([Sta.item()]))[0]
     except:
-        p = 1 - momentchi2.hbe(numpy2rpy(eig_d), Sta.item())[0]
+        # p = 1 - momentchi2.hbe(numpy2rpy(eig_d), Sta.item())[0]
+        p = 1 - momentchi2.hbe(eig_d, np.array([Sta.item()]))[0]
 
     p = max(p,np.exp(-40))
     return p
@@ -112,9 +115,11 @@ def RCIT_core(four_x, four_y, four_z, r, num_f, num_f2):
     eig_d = eig_d.real
 
     try:
-        p = 1- momentchi2.lpb4(numpy2rpy(eig_d), Sta.item())[0]
+        # p = 1- momentchi2.lpb4(numpy2rpy(eig_d), Sta.item())[0]
+        p = 1 - momentchi2.lpb4(eig_d, np.array([Sta.item()]))[0]
     except:
-        p = 1 - momentchi2.hbe(numpy2rpy(eig_d), Sta.item())[0]
+        # p = 1 - momentchi2.hbe(numpy2rpy(eig_d), Sta.item())[0]
+        p = 1 - momentchi2.hbe(eig_d, np.array([Sta.item()]))[0]
 
     p = max(p,np.exp(-40))
     return p
