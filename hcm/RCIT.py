@@ -1,7 +1,7 @@
 import numpy as np
 import math
 import random
-from utils import normalize
+from hcm.utils import normalize
 from scipy.spatial.distance import pdist
 from scipy.linalg import cholesky, solve_triangular
 from rpy2.robjects.numpy2ri import numpy2rpy

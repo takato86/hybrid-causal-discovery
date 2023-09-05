@@ -1,11 +1,11 @@
 # coding: utf-8
 import pandas as pd
 import numpy as np
-from mixed_causal import mixed_causal, \
+from hcm.mixed_causal import mixed_causal, \
     prior_knowledge_encode, data_processing, evaluate
 import easydict
-
-from const import DEFAULT_MODEL_PARA, DEFAULT_LGBM_PARA, DEFAULT_GAM_PARA
+from hcm.logger import logger
+from hcm.const import DEFAULT_MODEL_PARA, DEFAULT_LGBM_PARA, DEFAULT_GAM_PARA
 
 
 args = easydict.EasyDict({

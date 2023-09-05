@@ -1,10 +1,14 @@
 import itertools
 import numpy as np
 import pandas as pd
+from pandarallel import pandarallel
 from sklearn.neighbors import KernelDensity
 from scipy.stats import gaussian_kde
 import warnings
+from hcm.logger import logger
+
 warnings.filterwarnings("ignore")
+pandarallel.initialize(progress_bar=True)
 
 
 def greedy_edgeadding(df, X_encode, selMat, maxNumParents,base_model_para,
@@ -44,7 +48,10 @@ def greedy_edgeadding(df, X_encode, selMat, maxNumParents,base_model_para,
         base_model_para=base_model_para)
 
     # initialize scoreMat
+    logger.debug("Start initializing scoreMat.")
     scoreMat, scoreNodes = ScoreMatComputer.initialScoreMat()
+    logger.debug("Complete initializing scoreMat.")
+
     # Greedily adding edges
     while np.max(scoreMat) > -float('inf'):
         diff = scoreMat-np.transpose(scoreMat)
@@ -140,7 +147,7 @@ class ScoreMatCompute(object):
         self.valid_pair = np.argwhere(selMat)
         self.scoreMat = np.ones(selMat.shape) * (-float('inf'))
         # scoreNodes is the log(p(x)) of each variable
-        self.scoreNodes = (self.X).apply(compute_init_ll, axis=0).values
+        self.scoreNodes = (self.X).parallel_apply(compute_init_ll, axis=0).values
         self.score_type = score_type
         self.debug = debug
         self.Dn = X.shape[0]

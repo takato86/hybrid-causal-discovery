@@ -1,13 +1,15 @@
 import pandas as pd
 import numpy as np
 import time
-from utils import data_preprocess, evaluate_binary, \
+from hcm.utils import data_preprocess, evaluate_binary, \
     normalize_biweight, skeleton_metrics
-from camsearch_prior import greedy_edgeadding
+from hcm.camsearch_prior import greedy_edgeadding
 from sklearn.preprocessing import StandardScaler, FunctionTransformer
 from sklearn_pandas import DataFrameMapper
-from skelprune import skeleton, pruning
-from RCIT import RCITIndepTest
+from hcm.skelprune import skeleton, pruning
+from hcm.RCIT import RCITIndepTest
+
+from hcm.logger import logger
 
 def prior_knowledge_encode(feature_names,
                            source_nodes=None, direct_edges=None,
@@ -155,6 +157,7 @@ def mixed_causal(df, X_encode,model_para, base_model_para,
 
     #######################################################################
     # step1 use pc algorithm to conduct skeleton learning
+    logger.info("Start step1")
     indepTest = RCITIndepTest(suffStat=X_encode, down=downsampling,
                               num_f=num_f, num_f2=num_f2)
     if selMat is None:
@@ -169,8 +172,10 @@ def mixed_causal(df, X_encode,model_para, base_model_para,
     else:
         step1_train_time = 0
 
+    logger.info("Complete step1 in {}".format(step1_train_time))
     #######################################################################
     # step 2: create dag based on the greedy search
+    logger.info("Start step2")
     if base_model == "lgbm":
         X = X_encode
     elif base_model =="gam":
@@ -191,6 +196,7 @@ def mixed_causal(df, X_encode,model_para, base_model_para,
                             score_type = score_type,
                             )
     step2_train_time = time.time() - t2
+    logger.info("Complete step2 in {}".format(step2_train_time))
 
     ######################################################################
     # step 3: remove edges by conditional independence test
@@ -200,6 +206,7 @@ def mixed_causal(df, X_encode,model_para, base_model_para,
 
     step3_train_time = time.time() - t3
 
+    logger.info("Complete step3 in {}".format(step3_train_time))
     return(selMat, dag2, dag, step1_train_time,
            step2_train_time, step3_train_time)
 
