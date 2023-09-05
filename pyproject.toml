@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "hybrid-causal-discovery"
+version = "0.1.0"
+description = ""
+authors = ["tokudo"]
+readme = "README.md"
+packages = [{include = "hcm"}]
+
+[tool.poetry.dependencies]
+python = "3.9.17"
+pygam = "^0.9.0"
+rpy2 = "^3.5.13"
+sklearn-pandas = "^2.2.0"
+easydict = "^1.10"
+lightgbm = "2.3.1"
+astropy = "^5.3.2"
+tqdm = "^4.66.1"
+pyarrow = "^13.0.0"
+pandarallel = "^1.6.5"
+ipywidgets = "^8.1.0"
+
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.25.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
